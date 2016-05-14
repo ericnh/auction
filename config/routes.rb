@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   
   get 'contact' =>  'static_pages#contact'
 
+  get 'signup' =>  'users#new'
+
   get 'items/index'
 
   # The priority is based upon order of creation: first created -> highest priority.
