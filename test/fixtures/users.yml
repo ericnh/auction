@@ -4,3 +4,8 @@
     name: Spongebob
     email: sponge_bob@square_pants.com
     password_digest: <%= User.digest('password') %>
+
+  pat:
+    name: Patrickstar
+    email: patrick@star.com
+    password_digest: <%= User.digest('password') %>

@@ -24,6 +24,10 @@ module SessionsHelper
     end
   end
 
+  def current_user?(user)
+    current_user == user
+  end
+
   def logged_in?
     current_user.present?
   end
@@ -38,5 +42,16 @@ module SessionsHelper
     user.forget
     cookies.delete(:user_id)
     cookies.delete(:remember_token)
+  end
+
+  # redirects to the stored location or the default
+  def redirect_back_or(default)
+    redirect_to(session[:forwarding_url] || default)
+    session.delete(:forwarding_url)
+  end
+
+  # stores the url the user was trying to get to before hitting paywall
+  def store_location
+    session[:forwarding_url] = request.original_url if request.get?
   end
 end
