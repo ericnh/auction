@@ -1,11 +1,34 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
   bob:
-    name: Spongebob
+    name: Spongebob Squarepants
     email: sponge_bob@square_pants.com
     password_digest: <%= User.digest('password') %>
 
   pat:
-    name: Patrickstar
+    name: Patrick Star
     email: patrick@star.com
     password_digest: <%= User.digest('password') %>
+
+  squid:
+    name: Squidward Tentacles
+    email: squidward@tentacles.com
+    password_digest: <%= User.digest('password') %>
+
+  crab:
+    name: Mr. Crabs
+    email: mr@crab.com
+    password_digest: <%= User.digest('password') %>
+
+  squirrel:
+    name: Sandy Cheeks
+    email: sandy@cheeks.com
+    password_digest: <%= User.digest('password') %>
+
+  <% 30.times do |n| %>
+  user_<%= n %>:
+    name: <%= "#{n} Fish " %>
+    email: <%= "#{n}_fish@example.com" %>
+    password_digest: <%= User.digest('password') %>
+  <% end %>
+
