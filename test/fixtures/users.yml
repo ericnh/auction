@@ -4,6 +4,7 @@
     name: Spongebob Squarepants
     email: sponge_bob@square_pants.com
     password_digest: <%= User.digest('password') %>
+    admin: true
 
   pat:
     name: Patrick Star

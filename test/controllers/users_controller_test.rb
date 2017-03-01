@@ -50,4 +50,28 @@ class UsersControllerTest < ActionController::TestCase
     assert_not @other_user.reload.admin?
   end
 
+  test "should redirect delete request to login page when user not logged in" do
+    assert_no_difference 'User.count' do
+      delete :destroy, id: @user.id
+    end
+    assert_redirected_to login_url
+  end
+
+  test "should redirect delete request to home page when user is not an admin" do
+    log_in_as(@other_user)
+    assert_no_difference 'User.count' do
+      delete :destroy, id: @user.id
+    end
+    assert_redirected_to root_url
+  end
+
+  test "should allow delete request when current user is an admin" do
+    log_in_as(@user)
+    sacrificial_lamb = User.all.last
+    assert_difference 'User.count', -1 do
+      delete :destroy, id: sacrificial_lamb.id
+    end
+    assert_redirected_to users_path
+  end
+
 end
