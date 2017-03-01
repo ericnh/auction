@@ -44,4 +44,10 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to root_url
   end
 
+  test "should not allow user to update admin status from the scary www" do
+    log_in_as(@other_user)
+    patch :update, id: @other_user.id, user: {name: @other_user.name, email: @other_user.email, admin: true}
+    assert_not @other_user.reload.admin?
+  end
+
 end
