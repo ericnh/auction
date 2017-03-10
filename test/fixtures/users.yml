@@ -5,31 +5,43 @@
     email: sponge_bob@square_pants.com
     password_digest: <%= User.digest('password') %>
     admin: true
+    activated: true
+    activated_at: <%= Time.zone.now %>
 
   pat:
     name: Patrick Star
     email: patrick@star.com
     password_digest: <%= User.digest('password') %>
+    activated: true
+    activated_at: <%= Time.zone.now %>
 
   squid:
     name: Squidward Tentacles
     email: squidward@tentacles.com
     password_digest: <%= User.digest('password') %>
+    activated: true
+    activated_at: <%= Time.zone.now %>
 
   crab:
     name: Mr. Crabs
     email: mr@crab.com
     password_digest: <%= User.digest('password') %>
+    activated: true
+    activated_at: <%= Time.zone.now %>
 
   squirrel:
     name: Sandy Cheeks
     email: sandy@cheeks.com
     password_digest: <%= User.digest('password') %>
+    activated: true
+    activated_at: <%= Time.zone.now %>
 
   <% 30.times do |n| %>
   user_<%= n %>:
     name: <%= "#{n} Fish " %>
     email: <%= "#{n}_fish@example.com" %>
     password_digest: <%= User.digest('password') %>
+    activated: true
+    activated_at: <%= Time.zone.now %>
   <% end %>
 
