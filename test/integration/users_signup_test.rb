@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class UsersSignupTest < ActionDispatch::IntegrationTest
+  
+  def setup
+    ActionMailer::Base.deliveries.clear
+  end
 
   test "User model validations" do
     get signup_path
@@ -11,6 +15,8 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
                                password_confirmation: "bar" }
     end
     assert_template 'users/new'
+    assert_select 'div#error_explanation'
+    assert_select 'div.field_with_errors'
   end
 
   test "User model valid" do
