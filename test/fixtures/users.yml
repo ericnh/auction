@@ -36,12 +36,20 @@
     activated: true
     activated_at: <%= Time.zone.now %>
 
-  <% 30.times do |n| %>
+  gary:
+    name: Gary Snail
+    email: gary@snail.com
+    password_digest: <%= User.digest('password') %>
+    activated: false
+
+  <% 60.times do |n| %>
   user_<%= n %>:
     name: <%= "#{n} Fish " %>
     email: <%= "#{n}_fish@example.com" %>
     password_digest: <%= User.digest('password') %>
+  <% if n.odd? %>
     activated: true
     activated_at: <%= Time.zone.now %>
+  <% end %>
   <% end %>
 
