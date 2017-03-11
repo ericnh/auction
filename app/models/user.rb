@@ -34,15 +34,19 @@ class User < ActiveRecord::Base
     BCrypt::Password.new(digest).is_password?(token)
   end
 
-  def not_activated?
-    !activated?
-  end
-
   def activate
     update_attributes(
       activated: true,
       activated_at: Time.zone.now
     )
+  end
+
+  def not_activated?
+    !activated?
+  end
+
+  def send_activation_email
+    UserMailer.account_activation(self).deliver_now
   end
 
   private
