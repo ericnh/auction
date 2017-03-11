@@ -9,10 +9,10 @@ class User < ActiveRecord::Base
   before_save :downcase_email
   before_create :create_activation_digest
 
-  def User.digest(password_string)
+  def User.digest(secret_string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
                                                   BCrypt::Engine.cost
-    BCrypt::Password.create(password_string, cost: cost)
+    BCrypt::Password.create(secret_string, cost: cost)
   end
 
   def User.new_token
@@ -32,6 +32,10 @@ class User < ActiveRecord::Base
     digest = send("#{attribute}_digest")
     return false if digest.nil?
     BCrypt::Password.new(digest).is_password?(token)
+  end
+
+  def not_activated?
+    !activated?
   end
 
   private
