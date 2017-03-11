@@ -38,6 +38,13 @@ class User < ActiveRecord::Base
     !activated?
   end
 
+  def activate
+    update_attributes(
+      activated: true,
+      activated_at: Time.zone.now
+    )
+  end
+
   private
 
   def create_activation_digest

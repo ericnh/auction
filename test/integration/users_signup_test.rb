@@ -6,7 +6,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     ActionMailer::Base.deliveries.clear
   end
 
-  test "User model validations" do
+  test "Invalid sign up information" do
     get signup_path
     assert_no_difference 'User.count' do
       post users_path, user: { name: "",
@@ -19,7 +19,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     assert_select 'div.field_with_errors'
   end
 
-  test "User model valid" do
+  test "Valid sign up information with account activation" do
     get signup_path
     assert_difference 'User.count', 1 do
       post users_path, user: { name: "Example User",
@@ -27,8 +27,27 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
                                password: "foobar",
                                password_confirmation: "foobar" }
     end
+    assert_equal 1, ActionMailer::Base.deliveries.size
+    user = assigns(:user)
+    assert user.not_activated?
+
+    # Try to log in before activation
+    log_in_as user
+    assert_not is_logged_in?
+
+    # Invalid activation token
+    get edit_account_activation_url('bad_token', email: user.email)
+    assert_not is_logged_in?
+
+    # Invalid user email
+    get edit_account_activation_url(user.activation_token, email: 'bad_email')
+    assert_not is_logged_in?
+
+    # Valid activation
+    get edit_account_activation_url(user.activation_token, email: user.email)
+    assert user.reload.activated?
     follow_redirect!
-    # assert_template 'users/show'
-    # assert is_logged_in?
+    assert_template 'users/show'
+    assert is_logged_in?
   end
 end
